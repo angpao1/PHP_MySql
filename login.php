@@ -9,6 +9,24 @@
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body>
+    <?php 
+        include_once('connect.php');
+        if (isset($_POST['submit'])) {
+            $username = $_POST['username'];
+            $password = $conn->real_escape_string($_POST['password']);
+
+            $sql =" SELECT * FROM `member` WHERE `username` = '".$username."' AND `password` = '".$password."'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $_SESSION['id'] = $row['id'];
+                $_SESSION['name'] = $row['name'];
+                header('location:index.php');
+            }
+        }
+
+    ?>
     <div class="container">
         <div class="row">
             <div class="col-md-8 mx-auto mt-5">
